@@ -7,14 +7,12 @@
 This repository is Golang implementation of Developmental learning algorithms studied in IDEAL MOOC. 
 This repository contains:
 
-1. [The specification](spec.md) for how a standard README should look.
-
-
+1. Golang implementation of Developmental learning algorithms
 
 ## Table of Contents
 
 - [Background](#background)
-- [Audience and prerequisite](#audience-prereq)
+- [Audience and prerequisite](#audience-and-prerequisite)
 - [Maintainers](#maintainers)
 - [Contributing](#contributing)
 - [License](#license)
