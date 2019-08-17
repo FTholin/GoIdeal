@@ -6,53 +6,14 @@ import (
 	"fmt"
 )
 
-type Mood int
-
-const (
-	SELF_SATISFIED = iota
-	FRUSTRATED
-	BORED
-	PAINED
-	PLEASED
-)
-
-func (mood Mood) String() string {
-	values := [...]string{
-		"SELF_SATISFIED",
-		"FRUSTRATED",
-		"BORED",
-		"PAINED",
-		"PLEASED"}
-
-	if mood < SELF_SATISFIED || mood > PLEASED {
-		return "Unknown"
-	}
-	return values[mood]
-}
-
-const LABEL_E1 = "e1"
-const LABEL_E2 = "e2"
-const LABEL_R1 = "r1"
-const LABEL_R2 = "r2"
-
-const BOREDOME_LEVEL = 4
 
 // An Existence010 simulates a "stream of intelligence" made of a succession of Experiments and Results.
 // Existence010 is SELF-SATISFIED when the Result corresponds to the Result it expected, and FRUSTRATED otherwise.
 // Additionally, the Existence0 is BORED when it has been SELF-SATISFIED for too long, which causes it to try another Experiment.
 // An Existence1 is still a single entity rather than being split into an explicit Agent and Environment.
 type Existence010 struct {
-	mood Mood
-
-	experiments map[string]coupling.Experiment
-
-	results map[string]coupling.Result
-
+	Existence
 	interactions map[string]interaction.Interaction010
-
-	selfSatisfactionCounter int
-
-	previousExperiment coupling.Experiment
 }
 
 
@@ -63,11 +24,13 @@ func NewExistence010() *Existence010 {
 		LABEL_E2: coupling.Experiment{LABEL_E2},
 	}
 	ex := &Existence010{
-		experiments: experiments,
-		results: make(map[string]coupling.Result),
-		selfSatisfactionCounter: 0,
+		Existence: Existence{
+			experiments: experiments,
+			results: make(map[string]coupling.Result),
+			selfSatisfactionCounter: 0,
+			previousExperiment: experiments[LABEL_E1],
+		},
 		interactions: make(map[string]interaction.Interaction010),
-		previousExperiment: experiments[LABEL_E1],
 	}
 	return ex
 }
