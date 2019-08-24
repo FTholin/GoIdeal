@@ -2,6 +2,7 @@ package existence
 
 import (
 	"GoIdeal/coupling"
+	"GoIdeal/coupling/interaction"
 )
 
 type Mood int
@@ -35,23 +36,16 @@ const LABEL_R2 = "r2"
 
 const BOREDOME_LEVEL = 4
 
-type Existence struct {
 
-	// explicitly state that the embedding struct needs to satisfy
-	// the embedded interface
-	Existencer
-	mood Mood
-	experiments map[string]coupling.Experiment
-	results map[string]coupling.Result
-	selfSatisfactionCounter int
-	previousExperiment coupling.Experiment
-}
-
-// simulation of a stream of intelligence when it is run step by step
-type Existencer interface {
-
-	// one step of a  "stream of intelligence"
-	// It returns a string representing an "event of intelligence" that was performed
+type Existence interface {
 	Step() string
+	addOrGetPrimitiveInteraction(coupling.Experiment, coupling.Result) interaction.Interaction
+	addOrGetInteraction(string) interaction.Interaction
+	createInteraction(string) interaction.Interaction
+	getInteraction(string) interaction.Interaction
+	predict(coupling.Experiment) coupling.Result
+	getOtherExperiment(coupling.Experiment) coupling.Experiment
 }
+
+
 

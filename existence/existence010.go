@@ -12,7 +12,7 @@ import (
 // Additionally, the Existence0 is BORED when it has been SELF-SATISFIED for too long, which causes it to try another Experiment.
 // An Existence1 is still a single entity rather than being split into an explicit Agent and Environment.
 type Existence010 struct {
-	Existence
+	Existence000
 	interactions map[string]interaction.Interaction010
 }
 
@@ -23,8 +23,8 @@ func NewExistence010() *Existence010 {
 		LABEL_E1: coupling.Experiment{LABEL_E1},
 		LABEL_E2: coupling.Experiment{LABEL_E2},
 	}
-	ex := &Existence010{
-		Existence: Existence{
+	existence := &Existence010{
+		Existence000: Existence000{
 			experiments: experiments,
 			results: make(map[string]coupling.Result),
 			selfSatisfactionCounter: 0,
@@ -32,7 +32,7 @@ func NewExistence010() *Existence010 {
 		},
 		interactions: make(map[string]interaction.Interaction010),
 	}
-	return ex
+	return existence
 }
 
 func (e *Existence010) Step() string {
@@ -77,9 +77,8 @@ func (e *Existence010) addOrGetPrimitiveInteraction(experiment coupling.Experime
 // records an interaction in memory.
 func (e *Existence010) addOrGetInteraction(label string) interaction.Interaction010 {
 	if _, contains := e.interactions[label]; !contains {
-		e.interactions[label] = interaction.Interaction010{
-			Label: label,
-		}
+		interaction := interaction.NewInteraction010(label)
+		e.interactions[label] = *interaction
 	}
 	return e.interactions[label]
 }
@@ -105,35 +104,35 @@ func (e *Existence010) addOrGetExperiment(label string) coupling.Experiment {
 	return e.experiments[label]
 }
 
-// Finds an experiment different from that passed in parameter.
-func (e *Existence010) getOtherExperiment(experiment coupling.Experiment) coupling.Experiment {
-	var otherExperiment coupling.Experiment
-
-	for _, v := range e.interactions {
-		if v.Experiment != experiment {
-			otherExperiment = v.Experiment
-			break
-		}
-	}
-	return otherExperiment
-}
+//// Finds an experiment different from that passed in parameter.
+//func (e *Existence010) getOtherExperiment(experiment coupling.Experiment) coupling.Experiment {
+//	var otherExperiment coupling.Experiment
+//
+//	for _, v := range e.interactions {
+//		if v.Experiment != experiment {
+//			otherExperiment = v.Experiment
+//			break
+//		}
+//	}
+//	return otherExperiment
+//}
 
 // Creates a new result from its label and stores it in memory.
-func (e *Existence010) createOrGetResult(label string) coupling.Result {
-	if _, contains := e.results[label]; !contains {
-		e.results[label] = coupling.Result{
-			Label: label,
-		}
-	}
-	return e.results[label]
-}
+//func (e *Existence010) createOrGetResult(label string) coupling.Result {
+//	if _, contains := e.results[label]; !contains {
+//		e.results[label] = coupling.Result{
+//			Label: label,
+//		}
+//	}
+//	return e.results[label]
+//}
 
-// Environement010
-// E1 results in R1. E2 result in R2.
-func (e *Existence010) ReturnResult010(experiment coupling.Experiment) coupling.Result {
-	if experiment == e.addOrGetExperiment(LABEL_E1) {
-		return e.createOrGetResult(LABEL_R1)
-	} else {
-		return e.createOrGetResult(LABEL_R2)
-	}
-}
+//// Environement010
+//// E1 results in R1. E2 result in R2.
+//func (e *Existence010) ReturnResult010(experiment coupling.Experiment) coupling.Result {
+//	if experiment == e.addOrGetExperiment(LABEL_E1) {
+//		return e.createOrGetResult(LABEL_R1)
+//	} else {
+//		return e.createOrGetResult(LABEL_R2)
+//	}
+//}

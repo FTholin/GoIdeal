@@ -4,8 +4,19 @@ import "fmt"
 
 // An Interaction020 is an Interaction010 with a valence.
 type Interaction020 struct {
-	Interaction010
+	Interaction000
 	Valence int
+}
+
+
+func NewInteraction020(label string) *Interaction020 {
+
+	interaction := &Interaction020{
+		Interaction000: Interaction000{
+			Label:label,
+		},
+	}
+	return interaction
 }
 
 
